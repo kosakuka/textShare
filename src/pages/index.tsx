@@ -1,11 +1,27 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Inter } from "next/font/google";
-// import styles from '@/styles/Home.module.css'
+import { useState } from "react";
+import axios from "axios";
+import { GetServerSideProps, NextPage } from "next";
 
-const inter = Inter({ subsets: ["latin"] });
+interface ShareData {
+  title: string;
+  text: string;
+}
 
-export default function Home() {
+const Home: NextPage<ShareData> = (props) => {
+  const [title, setTitle] = useState(props.title);
+  const [text, setText] = useState(props.text);
+
+  const shareHandler = async () => {
+    const result: ShareData = await (
+      await axios.post(`http://localhost:3000/api`, { title, text })
+    ).data;
+    if (result) {
+      alert("データ更新成功");
+      return;
+    }
+  };
+
   return (
     <>
       <Head>
@@ -16,7 +32,31 @@ export default function Home() {
       </Head>
       <main>
         <h1 className="text-red-500">main</h1>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <textarea
+          defaultValue={text}
+          onChange={(e) => setText(e.target.value)}
+        ></textarea>
+        <button onClick={shareHandler}>share</button>
       </main>
     </>
   );
-}
+};
+
+export const getServerSideProps: GetServerSideProps<ShareData> = async () => {
+  console.log("ssr");
+
+  const result: ShareData = await (
+    await axios.get(`http://localhost:3000/api`)
+  ).data;
+
+  return {
+    props: result,
+  };
+};
+
+export default Home;
