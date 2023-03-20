@@ -6,11 +6,7 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { enableTabToIndent } from "indent-textarea";
-
-interface ShareData {
-  title: string;
-  text: string;
-}
+import { ShareData } from "@/utils/interface";
 
 const Home: NextPage<ShareData> = (props) => {
   const [title, setTitle] = useState(props.title);

@@ -1,22 +1,18 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { ShareData } from "@/utils/interface";
 import type { NextApiRequest, NextApiResponse } from "next";
-
-type Data = {
-  title: string;
-  text: string;
-};
 
 let title = "";
 let text = "";
 
 export default function handler(
   req: NextApiRequest,
-  res: NextApiResponse<Data>
+  res: NextApiResponse<ShareData>
 ) {
   if (req.method === "GET") {
     res.status(200).json({ title, text });
   } else if (req.method === "POST") {
-    const result: Data = req.body;
+    const result: ShareData = req.body;
     title = result.title;
     text = result.text;
     res.status(200).json({ title, text });
