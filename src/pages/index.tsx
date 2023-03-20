@@ -100,8 +100,6 @@ const Home: NextPage<ShareData> = (props) => {
 };
 
 export const getServerSideProps: GetServerSideProps<ShareData> = async () => {
-  console.log("ssr");
-
   const result: ShareData = await (
     await axios.get(`http://localhost:3000/api`)
   ).data;
