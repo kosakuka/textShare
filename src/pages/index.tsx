@@ -26,7 +26,10 @@ const Home: NextPage<ShareData> = (props) => {
   const shareHandler = async () => {
     try {
       const result = await (
-        await axios.post(`http://localhost:3000/api`, { title, text })
+        await axios.post(
+          `${process.env.NEXT_PUBLIC_HOST}:${process.env.NEXT_PUBLIC_PORT}/api`,
+          { title, text }
+        )
       ).data;
       if (result) {
         toast.success("Successfully Shared Text!");
